@@ -5,7 +5,7 @@
 Projet universitaire (UPJV) - M1 INFO 2023
 <br />
 
-Modifiez votre image ISO facilement ! Ajoutez lui des paquets (.deb), configurez l'installation silencieuse (preseed), et ajoutez votre propre script de post-installation ; le tout hors-ligne !
+Modifiez votre image ISO Debian facilement ! Ajoutez lui des paquets (.deb), configurez l'installation silencieuse (preseed), et ajoutez votre propre script de post-installation ; le tout hors-ligne !
 
 ## Présentation
 Customiso est un programme avec une interface en ligne de commande (CLI).
