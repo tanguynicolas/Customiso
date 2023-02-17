@@ -1,13 +1,14 @@
 # Customiso
-![#137C8B](https://placehold.co/160x10/137c8b/137c8b.png)![#E1A624](https://placehold.co/80x10/e1a624/e1a624.png)
-
+<img src="https://placehold.co/160x10/137c8b/137c8b.png" align="left"><img src="https://placehold.co/80x10/e1a624/e1a624.png" align="left">
 <img src="src/assets/img/logo_customiso.png"  width="25%" align="right">
+
+<br clear="left"/>
 _Projet universitaire (UPJV) - M1 INFO 2023_
-<br />
+<br /><br />
 
 Modifiez votre image ISO facilement ! Ajoutez lui des paquets (.deb), configurez l'installation silencieuse (preseed), et ajoutez votre propre script de post-installation ; le tout hors-ligne !
 
-<br clear="left"/>
+<br clear="right"/>
 
 ## Présentation
 Il s’agira d’un programme avec une interface en ligne de commande (CLI).
