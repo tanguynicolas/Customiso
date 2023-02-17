@@ -1,14 +1,11 @@
 # Customiso
-<img src="https://placehold.co/160x10/137c8b/137c8b.png" align="left"><img src="https://placehold.co/80x10/e1a624/e1a624.png" align="left">
+<img src="https://placehold.co/160x10/137c8b/137c8b.png"><img src="https://placehold.co/80x10/e1a624/e1a624.png">
 <img src="src/assets/img/logo_customiso.png"  width="25%" align="right">
 
-<br clear="left"/>
-_Projet universitaire (UPJV) - M1 INFO 2023_
-<br /><br />
+Projet universitaire (UPJV) - M1 INFO 2023
+<br />
 
 Modifiez votre image ISO facilement ! Ajoutez lui des paquets (.deb), configurez l'installation silencieuse (preseed), et ajoutez votre propre script de post-installation ; le tout hors-ligne !
-
-<br clear="right"/>
 
 ## Présentation
 Customiso est un programme avec une interface en ligne de commande (CLI).
