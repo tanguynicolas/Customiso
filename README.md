@@ -1,5 +1,5 @@
 # Customiso
-![#137C8B](https://placehold.co/200x6/137c8b/137c8b.png)![#E1A624](https://placehold.co/100x6/e1a624/e1a624.png)
+![#137C8B](https://placehold.co/160x10/137c8b/137c8b.png)![#E1A624](https://placehold.co/80x10/e1a624/e1a624.png)
 
 
 <img src="src/assets/img/logo_customiso.png"  width="30%" align="right">
