@@ -1,0 +1,9 @@
+Package: customiso-pusher
+Version: 1.0
+Section: admin
+Priority: optional
+Architecture: all
+Depends: bash
+Maintainer: "Tanguy NICOLAS" <tanguy-nicolas@outlook.fr>
+Homepage: linkedin.tanguynicolas.fr
+Description: Deploys files in an FHS tree structure, as well as a custom post-installation script.
