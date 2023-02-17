@@ -11,7 +11,7 @@ Modifiez votre image ISO facilement ! Ajoutez lui des paquets (.deb), configurez
 <br clear="right"/>
 
 ## Présentation
-Il s’agira d’un programme avec une interface en ligne de commande (CLI).
+Customiso est un programme avec une interface en ligne de commande (CLI).
 <br />
 Une commande de base : `customiso`. Cette commande a deux commandes enfants, à savoir `customiso generate` et `customiso make`
 <br />
