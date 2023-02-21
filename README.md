@@ -1,6 +1,6 @@
 # Customiso
 <img src="https://placehold.co/160x10/137c8b/137c8b.png"><img src="https://placehold.co/80x10/e1a624/e1a624.png">
-<img src="src/assets/img/logo_customiso.png"  width="25%" align="right">
+<img src="src/customiso/assets/img/logo_customiso.png"  width="25%" align="right">
 
 Projet universitaire (UPJV) - M1 INFO 2023
 <br />
