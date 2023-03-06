@@ -26,3 +26,14 @@ Permet de générer un fichier YAML avec un ensemble d’informations relatives 
 ## Customiso Make
 Permet, avec un fichier YAML correctement formaté en entrée, de modifier l’image ISO en conséquence du fichier passé en paramètre.
 
+## Setup projet
+```bash
+python -m venv .pyenv
+source .pyenv/bin/activate  # On entre dans l'env
+
+pip install -r requirements.txt
+
+deactivate                  # On sort de l'env
+```
+
+Require: yaml

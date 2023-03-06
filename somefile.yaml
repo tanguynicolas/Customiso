@@ -1,0 +1,49 @@
+preseed:
+  localization:
+    language: en
+    country: FR
+    locale: en_US.UTF-8
+    keymap: fr(latin9)
+  clock_time_zone:
+    timezone: Europe/Paris
+  network:
+    hostname: customiso
+    domain: local
+    advanced: 
+      ip_config: true
+  mirror:
+    http_hostname: http.fr.debian.org
+    http_directory: /debian
+    http_proxy: # if empty "d-i mirror/http/proxy string"
+  accounting:
+    root:
+      enable: true
+      password: insecure
+    user:
+      fullname: Tanguy
+      username: tanguy
+      password: insecure
+  partitionning:
+    predefined_mode: 2
+  packages:
+    tasksel:
+      - standard
+      - ssh-server
+    popularity_contest: false
+  finishing:
+    reboot_message: false
+    device_eject: true
+
+additional_packages:
+  packages:
+    - /home/tn/mypackage.deb
+
+additional_files:
+  meta_fhs:
+    - /home/tn/mydirmetafhs
+  unitary_files:
+    - from: /home/tn/myfile
+      to: /etc/config
+
+post_install_script:
+  script: /home/tn/superscript
