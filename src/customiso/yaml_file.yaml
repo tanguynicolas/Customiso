@@ -1,0 +1,8 @@
+preseed:
+  localization:
+    language: fr
+    country: en
+    locale: en_US.UTF-8
+    keymap: 12
+  clock_time_zone:
+    timezone: Europe/Paris

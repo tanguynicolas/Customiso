@@ -35,8 +35,7 @@ preseed:
     device_eject: true
 
 additional_packages:
-  packages:
-    - /home/tn/mypackage.deb
+  - /home/tn/mypackage.deb
 
 additional_files:
   meta_fhs:
@@ -45,5 +44,4 @@ additional_files:
     - from: /home/tn/myfile
       to: /etc/config
 
-post_install_script:
-  script: /home/tn/superscript
+post_install_script: /home/tn/superscript
