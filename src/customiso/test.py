@@ -43,10 +43,8 @@
 #with open("yaml_file.yaml", "w") as f:
 #    yaml.safe_dump(content, f, sort_keys=False)
 
-from pick import pick
+import inquirer
 
-title = 'Please choose your favorite programming language: '
-options = ['Java', 'JavaScript', 'Python', 'PHP', 'C++', 'Erlang', 'Haskell']
-option, index = pick(options, title)
-print(option)
-print(index)
+keymap = { 'keymap': {'bonjour': 'français', 'hello': 'anglais' } }
+
+print(keymap.get('keymap'))

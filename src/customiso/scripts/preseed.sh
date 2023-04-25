@@ -41,7 +41,7 @@ done
 LOCAL_DIR=$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd)
 . $LOCAL_DIR/constants.sh
 
-cp $LOCAL_DIR/../resources/preseed/preseed.cfg       ${customiso_path}/${extract_dir}/
-cp $LOCAL_DIR/../resources/preseed/isolinux/menu.cfg ${customiso_path}/${extract_dir}/isolinux/
-cp $LOCAL_DIR/../resources/preseed/isolinux/txt.cfg  ${customiso_path}/${extract_dir}/isolinux/
+cp $LOCAL_DIR/../templates/preseed/preseed.cfg       ${customiso_path}/${extract_dir}/
+cp $LOCAL_DIR/../templates/preseed/isolinux/menu.cfg ${customiso_path}/${extract_dir}/isolinux/
+cp $LOCAL_DIR/../templates/preseed/isolinux/txt.cfg  ${customiso_path}/${extract_dir}/isolinux/
 

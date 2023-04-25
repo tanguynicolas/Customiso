@@ -13,7 +13,6 @@ preseed:
       ip_config: true
   mirror:
     http_hostname: http.fr.debian.org
-    http_directory: /debian
     http_proxy: # if empty "d-i mirror/http/proxy string"
   accounting:
     root:
@@ -38,10 +37,7 @@ additional_packages:
   - /home/tn/mypackage.deb
 
 additional_files:
-  meta_fhs:
-    - /home/tn/mydirmetafhs
-  unitary_files:
-    - from: /home/tn/myfile
-      to: /etc/config
+  - from: /home/tn/myfile
+    to: /etc/config
 
 post_install_script: /home/tn/superscript

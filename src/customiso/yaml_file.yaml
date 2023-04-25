@@ -1,8 +1,66 @@
 preseed:
   localization:
-    language: fr
-    country: en
-    locale: en_US.UTF-8
-    keymap: 12
+    language: en                        # d-i debian-installer/language string en
+    country: FR                         # d-i debian-installer/country string FR
+    locale: en_US.UTF-8                 # d-i debian-installer/locale string en_US.UTF-8
+    keymap: fr(latin9)                  # d-i keyboard-configuration/xkb-keymap select fr(latin9)
   clock_time_zone:
-    timezone: Europe/Paris
+  # d-i clock-setup/utc boolean true
+    timezone: Europe/Paris              # d-i time/zone string Europe/Paris
+  network:
+    hostname: customiso                 # d-i netcfg/get_hostname string customiso
+    domain: local                       # d-i netcfg/get_domain string local
+    # d-i hw-detect/load_firmware boolean true
+    advanced: 
+      ip_config: true                   # NETWORK..........
+  mirror:
+    # d-i mirror/country string manual
+    http_hostname: http.fr.debian.org   # d-i mirror/http/hostname string http.fr.debian.org
+    # d-i mirror/http/directory string /debian
+    http_proxy: # if empty "d-i mirror/http/proxy string"
+  accounting:
+    root:
+      enable: true                      # d-i passwd/root-login boolean false
+      password: insecure                # d-i passwd/root-password password string
+    user:
+      fullname: Tanguy                  # d-i passwd/user-fullname string Tanguy Customiso
+      username: tanguy                  # d-i passwd/username string tanguy
+      password: insecure                # d-i passwd/user-password password tanguy && d-i passwd/user-password-again password tanguy
+  partitionning:
+    predefined_mode: 2                  # PARTITIONNING...
+  packages:
+    #d-i apt-setup/cdrom/set-first boolean false
+    #d-i apt-setup/use_mirror boolean false
+    #d-i apt-setup/non-free boolean true
+    #d-i apt-setup/contrib boolean true
+    tasksel:                            # tasksel tasksel/first multiselect standard, ssh-server
+      - standard
+      - ssh-server
+    popularity_contest: false           # popularity-contest popularity-contest/participate boolean false
+  finishing:
+    #d-i grub-installer/only_debian boolean true
+    #d-i grub-installer/with_other_os boolean true
+    #d-i grub-installer/bootdev string /dev/sda
+    #d-i finish-install/keep-consoles boolean true
+    reboot_message: false               # d-i finish-install/reboot_in_progress note
+    device_eject: true                  # d-i cdrom-detect/eject boolean true
+
+additional_packages:                    # d-i pkgsel/include string build-essential vim tree customiso-pusher
+  #d-i pkgsel/upgrade select none
+  - /home/tn/mypackage.deb
+
+additional_files:
+  - from: /home/tn/myfile
+    to: /etc/config
+
+post_install_script: /home/tn/superscript 
+# d-i preseed/late_command string in-target /bin/bash /opt/customiso-postinstall
+
+
+#### Contents of the preconfiguration file (for bullseye)
+## No network for install               # VÉRIFIER CAR QUAND J'AI MIS À FALSE, JE N'AVAIS RIEN DANS /etc/network/interfaces. 
+#d-i netcfg/enable boolean false        # Je ne veut pas qu'il me dise qu'il a fail à trouver l'interface mais je veux une interface config en dhcp une fois le système installé
+## With network for install (auto)
+#d-i netcfg/choose_interface select auto
+#d-i netcfg/dhcp_timeout string 8
+#d-i netcfg/dhcpv6_timeout string 8

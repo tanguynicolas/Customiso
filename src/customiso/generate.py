@@ -5,11 +5,12 @@ avec une structure bien définie.
 
 import sys
 import os
-import tempfile
 from pathlib import Path
 from getpass import getpass
 
 import yaml
+import inquirer
+from inquirer.themes import BlueComposure
 
 from constants import *
 
@@ -17,15 +18,13 @@ class Generator:
     def __init__(self, quiet, output):
         self.quiet = quiet
         self.output = output
-        self.yaml_file = ""
-        self.data = {}
 
     def printer(self, normal_str, verbose_str):
         print(normal_str)
         if self.quiet == False: print(f"{fCinfo}{verbose_str}{rC}")
 
     def start_generate(self):
-        want_generate = input("⛽ Souaitez-vous générer un fichier de configuration pour Customiso Make ?\n[O/n] : ")
+        want_generate = input("⛽ Souaitez-vous générer un fichier de configuration pour Customiso Make ?\n(O/n) : ")
         if (not want_generate) or (want_generate.lower() in ("y", "o")):
             print("\n🚀 C'est parti.\n")
             print("=" * os.get_terminal_size().columns)
@@ -35,14 +34,18 @@ class Generator:
             self.config_additionnal_packages()
             self.config_additional_files()
             self.config_post_install_script()
+            self.end_generate()
         else:
             print("\n🤨 À bientôt.")
             sys.exit(1)
 
     def init_config(self):
-        self.printer("\nQuel sera le nom de votre fichier de configuration ?", 
-                    "Vous pouvez spécifier un chemin complet, ou relatif.")
-        self.yaml_file = Path(input(": ") or "/tmp/customiso.yaml")
+        if self.output:
+            self.yaml_file = Path(self.output)
+        else:
+            self.printer("\nQuel sera le nom de votre fichier de configuration ?", 
+                        "Vous pouvez spécifier un chemin complet, ou relatif.")
+            self.yaml_file = Path(input(": ") or "/tmp/customiso.yaml")
 
         self.yaml_file = self.yaml_file.resolve()
 
@@ -51,161 +54,317 @@ class Generator:
             self.yaml_file = self.yaml_file.with_suffix(".yaml")
 
         while self.yaml_file.exists():
-            self.yaml_file = Path(input(f"{fCwarning}Le fichier spécifié existe déjà{rC}, veuillez faire un choix alternatif : "))
+            self.yaml_file = Path(input(f"{fCwarning}Le fichier de sortie spécifié existe déjà{rC}, veuillez faire un choix alternatif : "))
 
         self.yaml_file.touch()
 
-
     def config_preseed(self):
         self.printer("\n🔹 CONFIGURATION DE L'INSTALLATION SILENCIEUSE", 
-                    "Pour toutes les questions, si vous laissez vide, vous serez interrogé par l'installateur au moment de l'installation.")
+                    "Pour toutes les questions, si vous laissez vide (ou None), vous serez interrogé par l'installateur au moment de l'installation.")
+        print()
 
-        # Localization
-        self.printer("\nQuelle sera la langue pour l'installation (format ISO 639-1) ?", 
-                    "Par exemple : en, fr, es, ...")
-        language = input(": ") or None
+        ## Localization
+        questions = [
+        inquirer.List('language',
+                        message="Quelle sera la langue pour l'installation (format ISO 639-1) ? ",
+                        choices=[None, 'fr', 'en', 'es']
+                    )
+        ]
+        self.language = inquirer.prompt(questions, theme=BlueComposure())
         
-        self.printer("\nQuelle sera le pays (format ISO 3166-1 alpha-2) ?", 
-                    "Par exemple : UK, FR, ES, ...")
-        county = input(": ") or None
+        questions = [
+        inquirer.List('country',
+                        message="Quel sera le pays (format ISO 3166-1 alpha-2) ? ",
+                        choices=[None, 'FR', 'US', 'UK', 'ES']
+                    )
+        ]
+        self.country = inquirer.prompt(questions, theme=BlueComposure())
 
-        self.printer("\nQuelle sera la langue (format <ISO 639-1>_<ISO 3166-1 alpha-2>.<encodage>) ?", 
-                    "Par exemple : en_US.UTF-8, fr_FR.UTF-8, ...")
-        locale = input(": ") or None
+        questions = [
+        inquirer.List('locale',
+                        message="Quelle sera la langue (format <ISO 639-1>_<ISO 3166-1 alpha-2>.<encodage>) ? ",
+                        choices=[None, 'fr_FR.UTF-8', 'en_US.UTF-8']
+                    )
+        ]
+        self.locale = inquirer.prompt(questions, theme=BlueComposure())
 
-        self.printer("\nQuelle sera la disposition du clavier ?", 
-                    "Par exemple : fr(latin9), ...")
-        keymap = input(": ") or None
+        questions = [
+        inquirer.List('keymap',
+                        message="Quelle sera la disposition du clavier ? ",
+                        choices=[None, 'fr(latin9)']
+                    )
+        ]
+        self.keymap = inquirer.prompt(questions, theme=BlueComposure())
 
-        # Clock & Time zone
-        self.printer("\nQuelle sera la zone de temps ?", 
-                    "Par exemple : Europe/Paris, ...")
-        timezone = input(": ") or None
+        ## Clock & Time zone
+        questions = [
+        inquirer.List('timezone',
+                        message="Quelle sera la zone de temps ? ",
+                        choices=[None, 'Europe/Paris']
+                    )
+        ]
+        self.timezone = inquirer.prompt(questions, theme=BlueComposure())
 
-        # Network
-        self.printer("\nQuel sera le nom d'hôte ?", 
-                    "Par exemple : customiso-computer.")
-        hostname = input(": ") or None
+        ## Network
+        questions = [
+        inquirer.Text('hostname', message="Quel sera le nom d'hôte ? ")
+        ]
+        self.hostname = inquirer.prompt(questions, theme=BlueComposure())
 
-        self.printer("\nQuel sera le nom de domaine ?", 
-                    "Par exemple : local, u-picardie.fr, ...")
-        domain = input(": ") or None
+        print()
 
-        self.printer("\nSouhaitez-vous effectuer la configuration IP ?", 
+        questions = [
+        inquirer.Text('domain', message="Quel sera le nom de domaine ? ")
+        ]
+        self.domain = inquirer.prompt(questions, theme=BlueComposure())
+
+        self.printer("\n[?] Souhaitez-vous effectuer la configuration IP ?", 
                     "Si vous ne disposerez pas d'une connexion réseau, choisissez non.")
-        ip_config = input("[o/n] : ")
+        ip_config = input("(o/n) : ")
         
         if (ip_config.lower() in ("y", "o")):
-            ip_config = True
+            self.ip_config = True
         elif (ip_config.lower() in ("n")):
-            ip_config = False
+            self.ip_config = False
         else:
-            ip_config = None
+            self.ip_config = None
+
+        print()
 
         # Mirror
-        self.printer("\nQuel sera le miroir pour l'installation des paquets ?", 
-                    "Par exemple : http.fr.debian.org, http.us.debian.org, ...")
-        http_hostname = input(": ") or None
+        questions = [
+        inquirer.List('http_hostname',
+                        message="Quel sera le miroir pour l'installation des paquets ? ",
+                        choices=[None, 'http.fr.debian.org', 'http.us.debian.org']
+                    )
+        ]
+        self.http_hostname = inquirer.prompt(questions, theme=BlueComposure())
 
-        self.printer("\nDans quel répertoire ?????", 
-                    "Recommandé : /debian")
-        http_directory = input(": ") or None
+        print("[?] Souhaitez-vous utiliser un mandataire HTTP ?")
+        http_proxy = input("(o/n) : ")
 
-        self.printer("\nQuel est l'adresse du proxy HTTP pour l'installation des paquets ?", 
-                    "Laissez vide si aucun.")
-        http_proxy = input(": ") or None
+        if (http_proxy.lower() in ("y", "o")):
+            questions = [
+            inquirer.Text('http_proxy', message="Quelle est son adresse ? ")
+            ]
+            self.http_proxy = inquirer.prompt(questions, theme=BlueComposure())
+        else:
+            self.http_proxy = {'http_proxy': None}
 
         # Accounting
-        self.printer("\nSouhaitez-vous activer le compte root ?", 
-                    "Il est recommandé de laisser vide. Dans ce cas, sudo sera utilisé pour l'élévation de privilèges.")
-        root_enable = input("[o/n] : ")
+        self.printer("\n[?] Souhaitez-vous activer le compte root ?", 
+                    "Il est recommandé de ne pas l'utiliser. Dans ce cas, sudo sera utilisé pour l'élévation de privilèges.")
+        root_enable = input("(o/n) : ")
         
         if (root_enable.lower() in ("y", "o")):
-            root_enable = True
+            self.root_enable = True
             self.printer("\nQuel sera le mot de passe de root ?", 
                         "Choisissez un mot de passe sécurisé ! Laissez vide si vous souhaitez le demander au moment de l'installation.")
-            root_password = getpass(": ") or None
+            self.root_password = getpass(": ") or None
         elif (root_enable.lower() in ("y", "o")):
-            root_enable = False
+            self.root_enable = False
+            self.root_password = None
         else:
-            root_enable = None
+            self.root_enable = None
+            self.printer("\nQuel sera le mot de passe de root ?", 
+                        "Choisissez un mot de passe sécurisé ! Laissez vide si vous souhaitez le demander au moment de l'installation.")
+            self.root_password = getpass(": ") or None
 
-        self.printer("\nQuel sera le nom complet de l'utilisateur principal ?", 
-                    "Par exemple : Utilisateur Customiso")
-        user_fullname = input(": ") or None
+        print()
 
-        self.printer("\nQuel sera le nom d'utilisateur de l'utilisateur principal ?", 
-                    "Par exemple : user-customiso")
-        user_username = input(": ") or None
+        questions = [
+        inquirer.Text('user_fullname', message="Quel sera le nom complet de l'utilisateur principal ? ")
+        ]
+        self.user_fullname = inquirer.prompt(questions, theme=BlueComposure())
 
-        self.printer("\nQuel sera le mot de passe de l'utilisateur principal ?", 
+        print()
+
+        questions = [
+        inquirer.Text('user_username', message="Quel sera le nom d'utilisateur de l'utilisateur principal ? ")
+        ]
+        self.user_username = inquirer.prompt(questions, theme=BlueComposure())
+
+        self.printer("\n[?] Quel sera le mot de passe de l'utilisateur principal ?", 
                     "Choisissez un mot de passe sécurisé ! Laissez vide si vous souhaitez le demander au moment de l'installation.")
-        user_password = getpass(": ") or None
+        self.user_password = getpass(": ") or None
 
         # Partitionning
-        self.printer("\nQuel mode de partitionnement souhaitez-vous utiliser ?", 
-                    """Par exemple 1, 2 ou 3.
-        1 = Tout dans une même partition
-        2 = Partition /homme séparée
-        3 = Partition /home, /var et /tmp séparées.""")
-        partitionning_mode = input(": ") or None
+        print("""\nListe des modes de partitionnement :
+    1 = Tout dans une même partition
+    2 = Partition /homme séparée
+    3 = Partition /home, /var et /tmp séparées.""")
+
+        questions = [
+        inquirer.List('partitionning_mode',
+                        message="Quel mode de partitionnement souhaitez-vous utiliser ? ",
+                        choices=[None, '1', '2', '3']
+                    )
+        ]
+        self.partitionning_mode = inquirer.prompt(questions, theme=BlueComposure())
 
         # Packages
-        self.printer("\nQuels paquets souhaitez-vous installer sur votre système ?", 
-                    "Par exemple : standard, ssh-server, ...")
-        tasksel = input(": ") or None
+        questions = [
+        inquirer.Checkbox('tasksel',
+                            message = "Quels paquets souhaitez-vous installer sur votre système ? ",
+                            choices = ['desktop', 'kde-desktop', 'xfce-desktop', 'web-server', 'ssh-server', 'standard'],
+                            autocomplete = ['standard'],
+                        )
+        ]
+        self.tasksel = inquirer.prompt(questions, theme=BlueComposure())
 
-        self.printer("\nSouaitez-vous participer à l'étude sur les paquets ?", 
-                    "")
-        popularity_contest = input(": ") or None
+        #if len(tasksel['tasksel']) == 0:
+        #    tasksel = None
+
+        print("[?] Souaitez-vous participer à l'étude sur les paquets ?")
+        popularity_contest = input("(o/n) : ")
+
+        if (popularity_contest.lower() in ("y", "o")):
+            self.popularity_contest = True
+        elif (popularity_contest.lower() in ("n")):
+            self.popularity_contest = False
+        else:
+            self.popularity_contest = None
 
         # Finishing
         self.printer("\nSouhaitez-vous faire apparaître le message de fin d'installation ?", 
                     "Si non, le système redémarrera sans afficher de message.")
-        reboot_message = input(": ") or None
+        reboot_message = input("(o/n) : ")
+
+        if (reboot_message.lower() in ("y", "o")):
+            self.reboot_message = True
+        elif (reboot_message.lower() in ("n")):
+            self.reboot_message = False
+        else:
+            self.reboot_message = None
 
         self.printer("\nSouhaitez-vous que le support d'installation soit éjecté à la fin de l'installation ?", 
                     "Généralement c'est ce que vous souhaitez pour éviter de démarrer une nouvelle fois sur le support d'installation.")
-        device_eject = input(": ") or None
+        device_eject = input("(o/n) : ")
+
+        if (device_eject.lower() in ("y", "o")):
+            self.device_eject = True
+        elif (device_eject.lower() in ("n")):
+            self.device_eject = False
+        else:
+            self.device_eject = None
 
 
     def config_additionnal_packages(self):
-        pass
+        self.printer("\n🔹 AJOUT DE PAQUETS ADDITIONNELS", 
+                    "Ajoutez uniquement des paquets « .deb ».")
+
+        add_packages = input("\nVoulez-vous ajouter des paquets ?\n(o/N) : ")
+
+        self.additional_packages = []
+        while (add_packages.lower() in ("y", "o")):
+            package_name = input("Entrez le nom du paquet : ")
+
+            if os.path.isfile(package_name) and package_name.endswith(".deb"):
+                    self.additional_packages.append(package_name)
+                    add_packages = input("Voulez-vous ajouter un autre paquet ? (O/n) ") or "o"
+            else:
+                print(f"{fCwarning}Le nom du paquet saisi n'est pas valide. Veuillez saisir un nom de fichier .deb existant.{rC}")
+
 
     def config_additional_files(self):
-        pass
+        self.printer("\n🔹 AJOUT DE FICHIERS ADDITIONNELS", 
+                    "Ajoutez tous les fichiers que vous souhaitez, à l'endroit où vous le souhaitez.")
+
+        add_files = input("\nVoulez-vous ajouter des fichiers ?\n(o/N) : ")
+
+        self.additional_files = []
+        while (add_files.lower() in ("y", "o")):
+            from_file = input("Entrez le chemin du fichier source : ")
+            if not os.path.isfile(from_file):
+                print(f"{fCwarning}Le fichier spécifié n'existe pas.{rC}")
+                continue
+
+            to_file = input("Entrez l'emplacement de destination : ")
+
+            self.additional_files.append({'from': from_file, 'to': to_file})
+            add_files = input("Voulez-vous ajouter d'autres fichiers ? (O/n) : ") or "o"
+
 
     def config_post_install_script(self):
-        pass
+        self.printer("\n🔹 AJOUT D'UN SCRIPT DE POST INSTALLATION", 
+                    "Indiquez simplement le chemin du script Bash que vous voudrez exécuter en fin d'installation.")
 
+        add_script = input("\nVoulez-vous ajouter un script de post-installation ?\n(o/N) : ")
 
-#def printer(quiet: bool, normal_str: str, verbose_str: str):
-#    print(normal_str)
-#    if quiet == False: print(verbose_str)
+        self.post_install_script = None
+        while (add_script.lower() in ("y", "o")):
+            self.post_install_script = input("Entrez le chemin vers le script : ")
+            if not os.path.isfile(self.post_install_script):
+                print(f"{fCwarning}Le fichier spécifié n'existe pas.{rC}")
+                continue
+            else:
+                break
 
-#def ask_user(quiet: bool = False, path: str = "./"):
-#
-#    printer(quiet,
-#        "\nQuel sera le nom d'hôte de votre machine ?",
-#        "teeest")
-#    hostname = input(": ")
-#
-#    print("\nQuel sera le nom complet de votre utilisateur (hors root) ?")
-#    fullname = input(": ")
-#
-#    print("\nQuel sera l'identifiant de votre utilisateur (hors root) ?")
-#    username = input(": ")
-#
-#    print("\nQuel sera le mot de passe de votre utilisateur (hors root) ?")
-#    password = input(": ")
-#
-#    # Charger le fichier YAML
-#    with open("somefile.yaml", "r") as f:
-#        contenu = yaml.safe_load(f)
-#
-#    # Ajouter la liste dans la clé "markup"
-#    contenu["languages"]["markup"] = ["YAML", "JSON", "XML"]
-#
-#    # Écrire les données modifiées dans le fichier YAML
-#    with open("somefile.yaml", "w") as f:
-#        yaml.safe_dump(contenu, f, sort_keys=False)
+            
+
+    def end_generate(self):
+        data =  {
+            'preseed': {
+                'localization': {
+                    'language': getattr(self, 'language')['language'],
+                    'country': getattr(self, 'country')['country'],
+                    'locale': getattr(self, 'locale')['locale'],
+                    'keymap': getattr(self, 'keymap')['keymap']
+                },
+                'clock_time_zone': {
+                    'timezone': getattr(self, 'timezone')['timezone']
+                },
+                'network': {
+                    'hostname': getattr(self, 'hostname')['hostname'],
+                    'domain': getattr(self, 'domain')['domain'],
+                    'advanced': {
+                        'ip_config': self.ip_config
+                    },
+                },
+                'mirror': {
+                    'http_hostname': getattr(self, 'http_hostname')['http_hostname'],
+                    'http_proxy': getattr(self, 'http_proxy')['http_proxy']
+                },
+                'accounting': {
+                    'root': {
+                        'enable': self.root_enable,
+                        'password': self.root_password
+                    },
+                    'user': {
+                        'fullname': getattr(self, 'user_fullname')['user_fullname'],
+                        'username': getattr(self, 'user_username')['user_username'],
+                        'password': self.user_password
+                    }
+                },
+                'partitionning': {
+                    'predefined_mode': getattr(self, 'partitionning_mode')['partitionning_mode']
+                },
+                'packages': {
+                    'tasksel': self.tasksel.get('tasksel'),
+                    'popularity_contest': self.popularity_contest
+                },
+                'finishing': {
+                    'reboot_message': self.reboot_message,
+                    'device_eject': self.device_eject
+                }
+            },
+            'additional_packages': self.additional_packages,
+            'additional_files': self.additional_files,
+            'post_install_script': self.post_install_script
+        }
+
+        info = """# Concernant le bloc "preseed"
+ # Toutes les valeurs nulles, vides où absentes se résulteront par une demande d'information au moment de l'installation.
+ # Les valeurs à "false" ou "no", aux endroits où cela est pris en charge, se résulteront par un non déploiement de la fonctionnalité.\n\n"""
+
+        with open(self.yaml_file, "w") as f:
+            yaml.safe_dump(data, f, sort_keys=False)
+            
+        with open(self.yaml_file, 'r+') as f:
+            content = f.read()
+            f.seek(0, 0)
+            f.write(info.rstrip('\r\n') + '\n\n' + content + '\n')
+
+        print("\n" + "=" * os.get_terminal_size().columns)
+        print(f"\n{fCsuccess}{fB}Votre fichier a bien été généré !{rC}\nRetrouvez-le ici : {self.yaml_file}\n")
+        print(f"Poursuivez la création de votre image ISO via la commande suivante : {fI}customiso make -f {self.yaml_file}{rC}\n")
