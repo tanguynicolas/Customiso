@@ -47,13 +47,19 @@ preseed:
 
 additional_packages:                    # d-i pkgsel/include string build-essential vim tree customiso-pusher
   #d-i pkgsel/upgrade select none
-  - /home/tn/mypackage.deb
+  - /home/tn/Desktop/Customiso/deb_packages/ponysay_3.0.3+20210327-1_all.deb
+  - /home/tn/Desktop/Customiso/deb_packages/cowsay_3.03+dfsg2-8_all.deb
+  - /home/tn/Desktop/Customiso/deb_packages/lsd_0.23.1_amd64.deb
 
 additional_files:
-  - from: /home/tn/myfile
+  - from: /home/tn/Desktop/Customiso/Customiso/src/customiso/samples/afile.xml
     to: /etc/config
+  - from: /home/tn/Desktop/Customiso/Customiso/src/customiso/samples/somefile.yaml
+    to: /var/data
+  - from: /home/tn/Desktop/Customiso/Customiso/src/customiso/samples/thefile.json
+    to: /bin/program
 
-post_install_script: /home/tn/superscript 
+post_install_script: /home/tn/Desktop/Customiso/test_script.sh
 # d-i preseed/late_command string in-target /bin/bash /opt/customiso-postinstall
 
 

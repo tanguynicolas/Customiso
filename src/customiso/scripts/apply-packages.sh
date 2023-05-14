@@ -65,12 +65,12 @@ Default {
     };
 };" > ${customiso_path}/config-deb
 
-apt-ftparchive --quiet generate ${customiso_path}/config-deb
+apt-ftparchive --quiet generate ${customiso_path}/config-deb  > /dev/null 2>&1
 
 sed -i '/MD5Sum:/,$d' ${customiso_path}/${extract_dir}/dists/bullseye/Release
 apt-ftparchive release ${customiso_path}/${extract_dir}/dists/bullseye \
         >> ${customiso_path}/${extract_dir}/dists/bullseye/Release
 
 cd "${customiso_path}/${extract_dir}"
-md5sum $(find ! -name "md5sum.txt" ! -path "./isolinux/*" -follow -type f) \
+md5sum $(find ! -name "md5sum.txt" ! -path "./isolinux/*" -follow -type f 2>/dev/null) \
         > "${customiso_path}/${extract_dir}/md5sum.txt";

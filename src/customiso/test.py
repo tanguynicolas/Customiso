@@ -43,8 +43,7 @@
 #with open("yaml_file.yaml", "w") as f:
 #    yaml.safe_dump(content, f, sort_keys=False)
 
-import inquirer
+var = True
 
-keymap = { 'keymap': {'bonjour': 'français', 'hello': 'anglais' } }
-
-print(keymap.get('keymap'))
+if var:
+    print("a")
