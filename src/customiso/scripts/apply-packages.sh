@@ -65,7 +65,7 @@ Default {
     };
 };" > ${customiso_path}/config-deb
 
-apt-ftparchive --quiet generate ${customiso_path}/config-deb  > /dev/null 2>&1
+apt-ftparchive generate ${customiso_path}/config-deb  > /dev/null 2>&1
 
 sed -i '/MD5Sum:/,$d' ${customiso_path}/${extract_dir}/dists/bullseye/Release
 apt-ftparchive release ${customiso_path}/${extract_dir}/dists/bullseye \

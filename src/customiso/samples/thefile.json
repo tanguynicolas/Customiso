@@ -1,3 +1,5 @@
 {
-    "hi": "hello"
+    "lang": ["EN", "FR"],
+    "hi": "hello",
+    "salut" : "bonjour"
 }

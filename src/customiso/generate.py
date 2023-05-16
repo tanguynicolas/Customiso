@@ -161,14 +161,9 @@ class Generator:
             self.printer("\nQuel sera le mot de passe de root ?", 
                         "Choisissez un mot de passe sécurisé ! Laissez vide si vous souhaitez le demander au moment de l'installation.")
             self.root_password = getpass(": ") or None
-        elif (root_enable.lower() in ("y", "o")):
+        else:
             self.root_enable = False
             self.root_password = None
-        else:
-            self.root_enable = None
-            self.printer("\nQuel sera le mot de passe de root ?", 
-                        "Choisissez un mot de passe sécurisé ! Laissez vide si vous souhaitez le demander au moment de l'installation.")
-            self.root_password = getpass(": ") or None
 
         print()
 
@@ -206,7 +201,7 @@ class Generator:
         questions = [
         inquirer.Checkbox('tasksel',
                             message = "Quels paquets souhaitez-vous installer sur votre système ? ",
-                            choices = ['desktop', 'kde-desktop', 'xfce-desktop', 'web-server', 'ssh-server', 'standard'],
+                            choices = ['standard', 'desktop', 'gnome-desktop', 'kde-desktop', 'xfce-desktop', 'web-server', 'ssh-server'],
                             autocomplete = ['standard'],
                         )
         ]

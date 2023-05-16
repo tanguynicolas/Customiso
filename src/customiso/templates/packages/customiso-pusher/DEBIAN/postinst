@@ -1,4 +1,3 @@
 #!/bin/bash
 
-chmod +x /opt/customiso-postinstall
-
+chmod +x /opt/customiso-postinstall || echo "Script customiso-postinstall is not implemented."

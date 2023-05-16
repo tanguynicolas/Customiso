@@ -1,54 +1,40 @@
 preseed:
   localization:
-    language: en                        # d-i debian-installer/language string en
-    country: FR                         # d-i debian-installer/country string FR
-    locale: en_US.UTF-8                 # d-i debian-installer/locale string en_US.UTF-8
-    keymap: fr(latin9)                  # d-i keyboard-configuration/xkb-keymap select fr(latin9)
+    language: en
+    country: FR
+    locale: en_US.UTF-8
+    keymap: fr(latin9)
   clock_time_zone:
-  # d-i clock-setup/utc boolean true
-    timezone: Europe/Paris              # d-i time/zone string Europe/Paris
+    timezone: Europe/Paris
   network:
-    hostname: customiso                 # d-i netcfg/get_hostname string customiso
-    domain: local                       # d-i netcfg/get_domain string local
-    # d-i hw-detect/load_firmware boolean true
+    hostname: customiso
+    domain: ask
     advanced: 
-      ip_config: true                   # NETWORK..........
+      ip_config: true
   mirror:
-    # d-i mirror/country string manual
-    http_hostname: http.fr.debian.org   # d-i mirror/http/hostname string http.fr.debian.org
-    # d-i mirror/http/directory string /debian
-    http_proxy: # if empty "d-i mirror/http/proxy string"
+    http_hostname: deb.debian.org
+    http_proxy: none
   accounting:
     root:
-      enable: true                      # d-i passwd/root-login boolean false
-      password: insecure                # d-i passwd/root-password password string
+      enable: true
+      password: "$6$o1Ta1wpTDhU.Upde$29fzWrjfStzU3PJnFkKn9zCU3fUrJMBMCBe9Ndcc0j8pPIYe9293msJh8Z.Q2xaD37b6WN4QRKcU9kiKdvoqI0"
     user:
-      fullname: Tanguy                  # d-i passwd/user-fullname string Tanguy Customiso
-      username: tanguy                  # d-i passwd/username string tanguy
-      password: insecure                # d-i passwd/user-password password tanguy && d-i passwd/user-password-again password tanguy
+      fullname: Tanguy
+      username: tanguy
+      password: "$6$M0iPRL3VvFh0JWvr$5kRju/9LFcb6xkdFnmvFCPKh9hHpRyoJG1sOeY4Uaae5pc0onWYiJEHa7QeGjTUE8Y3ULC/vAkZDfdxjhhcfm0"
   partitionning:
-    predefined_mode: 2                  # PARTITIONNING...
+    predefined_mode: 3
   packages:
-    #d-i apt-setup/cdrom/set-first boolean false
-    #d-i apt-setup/use_mirror boolean false
-    #d-i apt-setup/non-free boolean true
-    #d-i apt-setup/contrib boolean true
-    tasksel:                            # tasksel tasksel/first multiselect standard, ssh-server
+    tasksel:
       - standard
       - ssh-server
-    popularity_contest: false           # popularity-contest popularity-contest/participate boolean false
+    popularity_contest: false
   finishing:
-    #d-i grub-installer/only_debian boolean true
-    #d-i grub-installer/with_other_os boolean true
-    #d-i grub-installer/bootdev string /dev/sda
-    #d-i finish-install/keep-consoles boolean true
-    reboot_message: false               # d-i finish-install/reboot_in_progress note
-    device_eject: true                  # d-i cdrom-detect/eject boolean true
+    reboot_message: false
+    device_eject: false
 
-additional_packages:                    # d-i pkgsel/include string build-essential vim tree customiso-pusher
-  #d-i pkgsel/upgrade select none
+additional_packages:
   - /home/tn/Desktop/Customiso/deb_packages/ponysay_3.0.3+20210327-1_all.deb
-  - /home/tn/Desktop/Customiso/deb_packages/cowsay_3.03+dfsg2-8_all.deb
   - /home/tn/Desktop/Customiso/deb_packages/lsd_0.23.1_amd64.deb
 
 additional_files:
@@ -59,14 +45,4 @@ additional_files:
   - from: /home/tn/Desktop/Customiso/Customiso/src/customiso/samples/thefile.json
     to: /bin/program
 
-post_install_script: /home/tn/Desktop/Customiso/test_script.sh
-# d-i preseed/late_command string in-target /bin/bash /opt/customiso-postinstall
-
-
-#### Contents of the preconfiguration file (for bullseye)
-## No network for install               # VÉRIFIER CAR QUAND J'AI MIS À FALSE, JE N'AVAIS RIEN DANS /etc/network/interfaces. 
-#d-i netcfg/enable boolean false        # Je ne veut pas qu'il me dise qu'il a fail à trouver l'interface mais je veux une interface config en dhcp une fois le système installé
-## With network for install (auto)
-#d-i netcfg/choose_interface select auto
-#d-i netcfg/dhcp_timeout string 8
-#d-i netcfg/dhcpv6_timeout string 8
+post_install_script: none

@@ -46,4 +46,3 @@ LOCAL_DIR=$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd)
 mkdir -p "${customiso_path}/${extract_dir}"
 bsdtar -C "${customiso_path}/${extract_dir}" -xf "$iso_path"
 chmod -R +w "${customiso_path}/${extract_dir}"
-
