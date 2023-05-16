@@ -8,7 +8,7 @@ preseed:
     timezone: Europe/Paris
   network:
     hostname: customiso
-    domain: ask
+    domain: none
     advanced: 
       ip_config: true
   mirror:
@@ -23,7 +23,7 @@ preseed:
       username: tanguy
       password: "$6$M0iPRL3VvFh0JWvr$5kRju/9LFcb6xkdFnmvFCPKh9hHpRyoJG1sOeY4Uaae5pc0onWYiJEHa7QeGjTUE8Y3ULC/vAkZDfdxjhhcfm0"
   partitionning:
-    predefined_mode: 3
+    predefined_mode: 1
   packages:
     tasksel:
       - standard

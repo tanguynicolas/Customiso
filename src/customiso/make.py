@@ -48,10 +48,10 @@ class Maker:
             self.step += 1
             subprocess.call([f'{self.python_path}/scripts/extract.sh', '--iso', self.in_iso])
         except:
-            print(f"[ ❌ ] {self.step}. Extraction du fichier ISO\n")
+            print(f"[ ❌ ] {self.step}. Extraction du fichier ISO.\n")
             sys.exit(1)
         else:
-            print(f"[ ✅ ] {self.step}. Extraction du fichier ISO\n")
+            print(f"[ ✅ ] {self.step}. Extraction du fichier ISO.\n")
 
     def build_presseed(self):
         with open(self.conf_file, 'r') as f:
@@ -218,7 +218,7 @@ class Maker:
 
         if yaml_data['post_install_script'] == "none" and yaml_data['additional_files'] == "none":
             pass
-        if yaml_data['post_install_script'] or yaml_data['additional_files']:
+        elif yaml_data['post_install_script'] or yaml_data['additional_files']:
             customiso_pusher = True
 
             # Fabrication du paquet .deb
@@ -262,7 +262,8 @@ class Maker:
             try:
                 self.step += 1
                 all_packages.append('customiso-pusher')
-                preseed_cfg.append("d-i preseed/late_command string in-target /bin/bash /opt/customiso-postinstall")
+                if yaml_data['post_install_script'] != "none":
+                    preseed_cfg.append("d-i preseed/late_command string in-target /bin/bash /opt/customiso-postinstall")
             except:
                 print(f"[ ❌ ] {self.step}. Ajout du script de post-installation et/ou des fichiers personalisés (étape 1/2).\n")
             else:
@@ -280,7 +281,7 @@ class Maker:
                     package_name = subprocess.run(f"dpkg --info {package} | grep 'Package:\s' | cut -d ' ' -f 3", shell=True, stdout=subprocess.PIPE)
                     package_real_name = package_name.stdout.decode().strip()
                     all_packages.append(package_real_name)
-                        
+                    
                     # Copie de tous les paquets dans le bon endroit de l'ISO
                     package_first_letter = package_real_name[0]
                     package_path = f'/tmp/customiso/cdrom/pool/main/{package_first_letter}/{package_real_name}'
@@ -331,39 +332,39 @@ class Maker:
             with open('/tmp/customiso/build_pressed', 'w') as preseed:
                 preseed.write('\n'.join(preseed_cfg))
         except:
-            print(f"[ ❌ ] {self.step}. Construction du fichier preseed\n")
+            print(f"[ ❌ ] {self.step}. Construction du fichier preseed.\n")
         else:
-            print(f"[ ✅ ] {self.step}. Construction du fichier preseed\n")
+            print(f"[ ✅ ] {self.step}. Construction du fichier preseed.\n")
 
     def import_presseed(self):
         try:
             self.step += 1
             subprocess.call([f'{self.python_path}/scripts/preseed.sh'])
         except:
-            print(f"[ ❌ ] {self.step}. Import du fichier preseed\n")
+            print(f"[ ❌ ] {self.step}. Import du fichier preseed.\n")
             sys.exit(1)
         else:
-            print(f"[ ✅ ] {self.step}. Import du fichier preseed\n")
+            print(f"[ ✅ ] {self.step}. Import du fichier preseed.\n")
 
     def import_packages(self):
         try:
             self.step += 1
             subprocess.call([f'{self.python_path}/scripts/apply-packages.sh'])
         except:
-            print(f"[ ❌ ] {self.step}. Intégration des nouveaux packages\n")
+            print(f"[ ❌ ] {self.step}. Intégration des nouveaux packages.\n")
             sys.exit(1)
         else:
-            print(f"[ ✅ ] {self.step}. Intégration des nouveaux packages\n")
+            print(f"[ ✅ ] {self.step}. Intégration des nouveaux packages.\n")
 
     def pack_iso(self):
         try:
             self.step += 1
             subprocess.call([f'{self.python_path}/scripts/packing.sh', '--iso', f'{self.out_iso}'])
         except:
-            print(f"[ ❌ ] {self.step}. Création de l'ISO personnalisé\n")
+            print(f"[ ❌ ] {self.step}. Création de l'ISO personnalisé.\n")
             sys.exit(1)
         else:
-            print(f"[ ✅ ] {self.step}. Création de l'ISO personnalisé\n")
+            print(f"[ ✅ ] {self.step}. Création de l'ISO personnalisé.\n")
 
     def end_make(self):
         print(f"\nMerci d'avoir utilisé CustomISO !\nVotre image « {self.out_iso}.iso » est prête.\n")
