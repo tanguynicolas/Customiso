@@ -44,4 +44,30 @@ pip install -r requirements.txt
 deactivate                  # On sort de l'env
 ```
 
-Require: yaml
+## Fichier de configuration Customiso
+|Directive|Description                  |Valeur|
+|---------|-----------------------------|------|
+|preseed.localization.language|La langue parlée/écrite pour l'installation.|"ask", [string]|
+|preseed.localization.country|Le pays de résidence.        |"ask", [string]|
+|preseed.localization.locale|La langue parlée/écrite.     |"ask", [string]|
+|preseed.localization.keymap|La langue du clavier.        |"ask", [string]|
+|preseed.clock_time_zone.timezone|Le fuseau horaire.           |"ask", [string]|
+|preseed.network.hostname|Le nom d'hôte.               |"ask", [string]|
+|preseed.network.domain|Le domaine.                  |"ask", "none", [string]|
+|preseed.network.advanced.ip_config|Si le système dispose ou non d'internet pour l'installation.|"ask", [boolean]|
+|preseed.mirror.http_hostname|L'hôte HTTP pour le miroir.  |"ask", [string]|
+|preseed.mirror.http_proxy|Le proxy HTTP pour le miroir.|"ask", "none", [string]|
+|preseed.accounting.root.enable|Indique si le compte root est activé.|[boolean]|
+|preseed.accounting.root.password|Le mot de passe chiffré du compte root.|"ask", [string]|
+|preseed.accounting.user.fullname|Le nom complet de l'utilisateur.|"ask", [string]|
+|preseed.accounting.user.username|Le nom d'utilisateur.        |"ask", [string]|
+|preseed.accounting.user.password|Le mot de passe chiffré de l'utilisateur.|"ask", [string]|
+|preseed.partitionning.predefined_mode|Le mode de partitionnement prédéfini.|"ask", 0, 1, 2, 3|
+|preseed.packages.tasksel|Les composants du système à installer. Valeurs possibles : 'standard', 'desktop', 'gnome-desktop', 'kde-desktop', 'xfce-desktop', 'web-server', 'ssh-server'.|"ask", [list(string)]|
+|preseed.packages.popularity_contest|Si vous souhaitez participer à popularity_contest.|"ask", [boolean]|
+|preseed.finishing.reboot_message|Indique si un message de redémarrage est affiché.|[boolean]|
+|preseed.finishing.device_eject|Indique si l'éjection du support est activée.|[boolean]|
+|additional_packages|Les packages additionnels à installer.|"none", [list(string)]|
+|additional_files|Les fichiers additionnels à ajouter et leur futur emplacement.|"none", [list("from": [string], "to": [string])]|
+|post_install_script|Le script exécuté après l'installation.|"none", [string]|
+
