@@ -108,6 +108,8 @@ class Maker:
 
         if network['domain'] == "ask":
             pass
+        elif network['domain'] == "none":
+            preseed_cfg.append(f"d-i netcfg/get_domain string")
         elif network['domain']:
             preseed_cfg.append(f"d-i netcfg/get_domain string {network['domain']}")
 

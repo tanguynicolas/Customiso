@@ -67,7 +67,7 @@ class Generator:
         questions = [
         inquirer.List('language',
                         message="Quelle sera la langue pour l'installation (format ISO 639-1) ? ",
-                        choices=[None, 'fr', 'en', 'es']
+                        choices=['ask', 'fr', 'en', 'es']
                     )
         ]
         self.language = inquirer.prompt(questions, theme=BlueComposure())
