@@ -145,12 +145,13 @@ class Maker:
 
         if accounting['root']['enable'] == True:
             preseed_cfg.append("d-i passwd/root-login boolean true")
-            if accounting['root']['password']:
+            if accounting['root']['password'] == "ask":
+                pass
+            elif accounting['root']['password']:
                 #preseed_cfg.append(f"d-i passwd/root-password password {accounting['root']['password']}")
                 #preseed_cfg.append(f"d-i passwd/root-password-again password {accounting['root']['password']}")
                 # Use: mkpasswd -m sha-512 <raw_password>
                 preseed_cfg.append(f"d-i passwd/root-password-crypted password {accounting['root']['password']}")
-                
         elif accounting['root']['enable'] == False:
             preseed_cfg.append("d-i passwd/root-login boolean false")
 
