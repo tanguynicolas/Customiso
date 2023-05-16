@@ -384,7 +384,7 @@ class Generator:
             'post_install_script': self.post_install_script
         }
 
-        info = """# Customiso - 2023"
+        info = """# Customiso - 2023
 
 # Toutes les valeurs à « ask », aux endroits où cela est pris en charge, se résulteront par une demande d'information au moment de l'installation.
 # Les valeurs à « none », aux endroits où cela est pris en charge, se résulteront par un non déploiement de la fonctionnalité.\n\n
