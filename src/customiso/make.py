@@ -127,10 +127,10 @@ class Maker:
         preseed_cfg.append("\n# MIRROR")
         mirror = yaml_data['preseed']['mirror']
 
-        if mirror['http_hostname']:
+        if mirror['http_hostname'] == "ask":
+            pass
+        elif mirror['http_hostname']:
             preseed_cfg.append(f"d-i mirror/http/hostname string {mirror['http_hostname']}")
-        else:
-            preseed_cfg.append(" FAILED")
 
         if mirror['http_proxy'] == "ask":
             pass
