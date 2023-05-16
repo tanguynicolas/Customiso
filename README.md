@@ -71,7 +71,7 @@ deactivate                  # On sort de l'env
 |preseed.partitionning.predefined_mode|Le mode de partitionnement prédéfini.|"ask", 0, 1, 2, 3|
 |preseed.packages.tasksel|Les composants du système à installer. Valeurs possibles : 'standard', 'desktop', 'gnome-desktop', 'kde-desktop', 'xfce-desktop', 'web-server', 'ssh-server'.|"ask", [list(string)]|
 |preseed.packages.popularity_contest|Si vous souhaitez participer à popularity_contest.|"ask", [boolean]|
-|preseed.finishing.reboot_message|Indique si un message de redémarrage est affiché.|[boolean]|
+|preseed.finishing.reboot_message|Indique si un message de redémarrage est affiché.|"ask", [boolean]|
 |preseed.finishing.device_eject|Indique si l'éjection du support est activée.|[boolean]|
 |additional_packages|Les packages additionnels à installer.|"none", [list(string)]|
 |additional_files|Les fichiers additionnels à ajouter et leur futur emplacement.|"none", [list("from": [string], "to": [string])]|
