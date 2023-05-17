@@ -26,5 +26,3 @@ fB = '\033[1m'         # Bold
 fI = '\033[3m'         # Italic
 rC = '\033[0m'         # Reset all
 rB = '\033[22m'        # Reset dim
-
-distribution = "Debian"

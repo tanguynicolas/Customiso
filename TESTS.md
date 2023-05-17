@@ -12,4 +12,3 @@ Si post_install_script :
 - ls -l /opt/helloo
 - ls -l /var/hellooo
 - ls -l /etc/helloooo
-

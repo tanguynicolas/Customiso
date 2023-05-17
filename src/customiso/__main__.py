@@ -15,15 +15,21 @@ subparser = parser.add_subparsers(dest='command')
 
 # Commande enfant generate
 generate = subparser.add_parser('generate')
-generate.add_argument('-q', action='store_true') # Quiet (no explainations)
-generate.add_argument('-c', type=str)            # Output conf file
+generate.add_argument('-q', action='store_true', # Quiet (no explainations)
+                      help='Si vous ne souhaitez pas avoir de message d\'explication complémentaires (utilisateurs avertit).')
+generate.add_argument('-c', type=str,            # Output conf file
+                      metavar='output_conf_file', help='Le chemin où vous souaitez entreposer le fichier de configuration une fois créé.')
 
 # Commande enfant make
 make = subparser.add_parser('make')
-make.add_argument('-c', type=str, required=True) # Input conf file
-make.add_argument('-i', type=str, required=True) # Input iso
-make.add_argument('-o', type=str, required=True) # Output iso
-make.add_argument('-v', action='store_true')     # Verbose
+make.add_argument('-c', type=str, required=True, # Input conf file
+                  metavar='input_conf_file', help='Le chemin vers le fichier de configuration à charger.')
+make.add_argument('-i', type=str, required=True, # Input iso
+                  metavar='input_iso', help='Le chemin vers l\'image ISO Debian de base.')
+make.add_argument('-o', type=str, required=True, # Output iso
+                  metavar='output_iso', help='Le chemin où vous souaitez entreposer l\'image ISO Debian personnalisée une fois créé.')
+make.add_argument('-v', action='store_true',     # Verbose
+                  help='Si vous souhaitez augmenter la verbosité (= déboguage).')
 
 # Traitement des options et arguments
 args = parser.parse_args()
