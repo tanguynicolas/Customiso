@@ -1,7 +1,7 @@
-"""
+'''
 Programme secondaire qui récupère des données utilisateur et les serializes en YAML,
 avec une structure bien définie.
-"""
+'''
 
 import subprocess
 import sys
@@ -13,18 +13,32 @@ import yaml
 from constants import *
 
 class Maker:
-    def __init__(self, conf_file, in_iso, out_iso):
+    ''' Commande customiso make
+
+    Permet de gérérer un image ISO personnalisée, à partir
+    des données enregistrés dans un fichier YAML.
+    '''
+
+    def __init__(self, conf_file, in_iso, out_iso, verbose):
+        '''Constructeur __init__
+
+        Args:
+            conf_file (str): chemin vers le fichier de configuration YAML.
+            in_iso (_type_): image ISO source.
+            out_iso (_type_): chemin d'accès à la future image ISO personalisée.
+        '''
+
         self.conf_file = conf_file
         self.in_iso = in_iso
         self.out_iso = out_iso
+        self.verbose = '-v' if verbose else ''
 
         self.step = 0
 
-#    def printer(self, normal_str, verbose_str):
-#        print(normal_str)
-#        if self.quiet == False: print(f"{fCinfo}{verbose_str}{rC}")
-
     def start_make(self):
+        '''Orchestrateur du programme
+        '''
+
         # Suppression du répertoire /tmp/customiso s'il existe déjà
         shutil.rmtree('/tmp/customiso', ignore_errors=True)
         # Création du répertoire /tmp/customiso
@@ -44,9 +58,12 @@ class Maker:
         self.end_make()
 
     def extract_iso(self):
+        '''Extrait l'image ISO source
+        '''
+
         try:
             self.step += 1
-            subprocess.call([f'{self.python_path}/scripts/extract.sh', '--iso', self.in_iso])
+            subprocess.call([f'{self.python_path}/scripts/extract.sh', '--iso', self.in_iso, self.verbose])
         except:
             print(f"[ ❌ ] {self.step}. Extraction du fichier ISO.\n")
             sys.exit(1)
@@ -54,6 +71,13 @@ class Maker:
             print(f"[ ✅ ] {self.step}. Extraction du fichier ISO.\n")
 
     def build_presseed(self):
+        '''Construit le fichier preseed
+
+        Crée le fichier preseed avec toutes les directives nécessaires,
+        sur la base des informations fournient dans le fichier de
+        configuration YAML.
+        '''
+
         with open(self.conf_file, 'r') as f:
             try:
                 yaml_data = yaml.safe_load(f)
@@ -340,9 +364,12 @@ class Maker:
             print(f"[ ✅ ] {self.step}. Construction du fichier preseed.\n")
 
     def import_presseed(self):
+        '''Import du fichier preseed dans l'ISO
+        '''
+
         try:
             self.step += 1
-            subprocess.call([f'{self.python_path}/scripts/preseed.sh'])
+            subprocess.call([f'{self.python_path}/scripts/preseed.sh', self.verbose])
         except:
             print(f"[ ❌ ] {self.step}. Import du fichier preseed.\n")
             sys.exit(1)
@@ -350,9 +377,15 @@ class Maker:
             print(f"[ ✅ ] {self.step}. Import du fichier preseed.\n")
 
     def import_packages(self):
+        '''Intègre les packages additionnels
+
+        Met à jour les releases files et le fichier « Packages », ainsi
+        que le fichier md5sum.txt.
+        '''
+
         try:
             self.step += 1
-            subprocess.call([f'{self.python_path}/scripts/apply-packages.sh'])
+            subprocess.call([f'{self.python_path}/scripts/apply-packages.sh', self.verbose])
         except:
             print(f"[ ❌ ] {self.step}. Intégration des nouveaux packages.\n")
             sys.exit(1)
@@ -360,9 +393,12 @@ class Maker:
             print(f"[ ✅ ] {self.step}. Intégration des nouveaux packages.\n")
 
     def pack_iso(self):
+        '''Construit la nouvelle image ISO
+        '''
+
         try:
             self.step += 1
-            subprocess.call([f'{self.python_path}/scripts/packing.sh', '--iso', f'{self.out_iso}'])
+            subprocess.call([f'{self.python_path}/scripts/packing.sh', '--iso', f'{self.out_iso}', self.verbose])
         except:
             print(f"[ ❌ ] {self.step}. Création de l'ISO personnalisé.\n")
             sys.exit(1)
@@ -370,4 +406,7 @@ class Maker:
             print(f"[ ✅ ] {self.step}. Création de l'ISO personnalisé.\n")
 
     def end_make(self):
-        print(f"\nMerci d'avoir utilisé CustomISO !\nVotre image « {self.out_iso}.iso » est prête.\n")
+        '''Simple message de fin
+        '''
+
+        print(f"\n{fI}Merci d'avoir utilisé CustomISO !{rC}\nVotre image « {fCsuccess}{self.out_iso}.iso{rC} » est prête.\n")

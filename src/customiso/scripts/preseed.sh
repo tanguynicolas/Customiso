@@ -18,7 +18,7 @@ usage() {
 
 #[[ $# -lt 1 ]] && err 'Missing arguments, type -h' && exit 1
 
-options=$(getopt -a -o h -l help -- "$@") || usage
+options=$(getopt -a -o hv -l help -- "$@") || usage
 
 eval set -- "$options" # eval for remove simple quote
 
@@ -26,7 +26,10 @@ while true; do
     case "$1" in
         -h|--help)
             usage
-	    shift;;
+	        shift;;
+        -v)
+            verbose=true
+	        shift;;
         --)
             shift; break;;
         *)
@@ -34,13 +37,12 @@ while true; do
     esac 
 done
 
-[[ $# -gt 0 ]] && err 'Too many arguments, type -h' && exit 1
 
 ### Coeur du script
 
 LOCAL_DIR=$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd)
 . $LOCAL_DIR/constants.sh
 
-cp ${customiso_path}/build_pressed                   ${customiso_path}/${extract_dir}/preseed.cfg
-cp $LOCAL_DIR/../templates/preseed/isolinux/menu.cfg ${customiso_path}/${extract_dir}/isolinux/
-cp $LOCAL_DIR/../templates/preseed/isolinux/txt.cfg  ${customiso_path}/${extract_dir}/isolinux/
+cp ${verbose:+-v} ${customiso_path}/build_pressed                   ${customiso_path}/${extract_dir}/preseed.cfg
+cp ${verbose:+-v} $LOCAL_DIR/../templates/preseed/isolinux/menu.cfg ${customiso_path}/${extract_dir}/isolinux/
+cp ${verbose:+-v} $LOCAL_DIR/../templates/preseed/isolinux/txt.cfg  ${customiso_path}/${extract_dir}/isolinux/

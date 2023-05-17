@@ -18,7 +18,7 @@ usage() {
 
 [[ $# -lt 1 ]] && err 'Missing arguments, type -h' && exit 1
 
-options=$(getopt -a -o hi: -l help,iso: -- "$@") || usage
+options=$(getopt -a -o hvi: -l help,iso: -- "$@") || usage
 
 eval set -- "$options" # eval for remove simple quote
 
@@ -29,7 +29,10 @@ while true; do
 	        shift;;
         -i|--iso)
             iso_path="$2"
-	    shift 2;;
+            shift 2;;
+        -v)
+            verbose=true
+	        shift;;
         --)
             shift; break;;
         *)
@@ -43,6 +46,6 @@ done
 LOCAL_DIR=$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd)
 . $LOCAL_DIR/constants.sh
 
-mkdir -p "${customiso_path}/${extract_dir}"
-bsdtar -C "${customiso_path}/${extract_dir}" -xf "$iso_path"
-chmod -R +w "${customiso_path}/${extract_dir}"
+mkdir ${verbose:+-v} -p "${customiso_path}/${extract_dir}"
+bsdtar -C "${customiso_path}/${extract_dir}" -xf "$iso_path" && [ $verbose ] && echo "Image extraite"
+chmod -R +w "${customiso_path}/${extract_dir}" && [ $verbose ] && echo "Droits d'écriture appliqués"

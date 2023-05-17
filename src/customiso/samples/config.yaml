@@ -45,4 +45,4 @@ additional_files:
   - from: /home/tn/Desktop/Customiso/Customiso/src/customiso/samples/thefile.json
     to: /bin/program
 
-post_install_script: none
+post_install_script: /home/tn/Desktop/Customiso/Customiso/src/customiso/samples/test_script.sh

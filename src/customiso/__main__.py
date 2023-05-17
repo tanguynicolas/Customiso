@@ -1,6 +1,6 @@
-"""
+'''
 Programme principal qui analyse les options et dirige l'utilsateur sur la suite du programme.
-"""
+'''
 
 import argparse
 import sys
@@ -23,6 +23,7 @@ make = subparser.add_parser('make')
 make.add_argument('-c', type=str, required=True) # Input conf file
 make.add_argument('-i', type=str, required=True) # Input iso
 make.add_argument('-o', type=str, required=True) # Output iso
+make.add_argument('-v', action='store_true')     # Verbose
 
 # Traitement des options et arguments
 args = parser.parse_args()
@@ -36,7 +37,7 @@ if args.command == 'generate':
 elif args.command == 'make':
     header(args.command.capitalize())
     
-    maker = Maker(args.c, args.i, args.o)
+    maker = Maker(args.c, args.i, args.o, args.v)
     maker.start_make()
 
 elif len(sys.argv)==1:

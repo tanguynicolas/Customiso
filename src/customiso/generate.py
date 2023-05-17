@@ -1,7 +1,7 @@
-"""
+'''
 Programme secondaire qui récupère des données utilisateur et les serializes en YAML,
 avec une structure bien définie.
-"""
+'''
 
 import sys
 import os
@@ -16,15 +16,39 @@ from inquirer.themes import BlueComposure
 from constants import *
 
 class Generator:
+    ''' Commande customiso generate
+
+    Permet de créer un fichier de configuration YAML
+    pour le programme customiso make, afin de perso-
+    naliser une image ISO.
+    '''
+
     def __init__(self, quiet, output):
+        '''Constructeur __init__
+
+        Args:
+            quiet (bool): si le script doit être moins verbeux.
+            output (str): chemin vers le fichier de configuration.
+        '''
+
         self.quiet = quiet
         self.output = output
 
     def printer(self, normal_str, verbose_str):
+        '''Afficheur plus ou moins verbeux
+
+        Args:
+            normal_str (str): texte qui s'affichera dans tous les cas.
+            verbose_str (str): texte qui s'affichera si le mode quiet n'est pas actif.
+        '''
+
         print(normal_str)
         if self.quiet == False: print(f"{fCinfo}{verbose_str}{rC}")
 
     def start_generate(self):
+        '''Orchestrateur du programme
+        '''
+
         want_generate = input("⛽ Souaitez-vous générer un fichier de configuration pour Customiso Make ?\n(O/n) : ")
         if (not want_generate) or (want_generate.lower() in ("y", "o")):
             print("\n🚀 C'est parti.\n")
@@ -41,6 +65,9 @@ class Generator:
             sys.exit(1)
 
     def init_config(self):
+        '''Prépare le terrain pour le reste du programme. 
+        '''
+
         if self.output:
             self.yaml_file = Path(self.output)
         else:
@@ -60,6 +87,11 @@ class Generator:
         self.yaml_file.touch()
 
     def config_preseed(self):
+        '''Collecteur de renseignements
+
+        Spécifique à la configuration du fichier preseed.
+        '''
+
         self.printer("\n🔹 CONFIGURATION DE L'INSTALLATION SILENCIEUSE", 
                     "Pour toutes les questions, si vous répondez « ask », vous serez interrogé par l'installateur au moment de l'installation.\nSi vous répondez « none », l'installateur ignorera la configuration de l'option.\nAttention, toutes les questions n'acceptent pas forcément ces réponses.\nVoir documentation : https://github.com/Tanguy00/Customiso/blob/main/README.md.")
         print()
@@ -276,6 +308,11 @@ class Generator:
 
 
     def config_additionnal_packages(self):
+        '''Collecteur de renseignements
+
+        Spécifique à l'ajout des packages additionnels.
+        '''
+
         self.printer("\n🔹 AJOUT DE PAQUETS ADDITIONNELS", 
                     "Ajoutez uniquement des paquets « .deb ».")
 
@@ -296,6 +333,11 @@ class Generator:
 
 
     def config_additional_files(self):
+        '''Collecteur de renseignements
+
+        Spécifique à l'ajout de fichiers additionnels.
+        '''
+
         self.printer("\n🔹 AJOUT DE FICHIERS ADDITIONNELS", 
                     "Ajoutez tous les fichiers que vous souhaitez, à l'endroit où vous le souhaitez.")
 
@@ -318,6 +360,11 @@ class Generator:
 
 
     def config_post_install_script(self):
+        '''Collecteur de renseignements
+
+        Spécifique à l'ajout d'un script de post installation.
+        '''
+
         self.printer("\n🔹 AJOUT D'UN SCRIPT DE POST INSTALLATION", 
                     "Indiquez simplement le chemin du script Bash que vous voudrez exécuter en fin d'installation.")
 
@@ -334,6 +381,11 @@ class Generator:
 
 
     def end_generate(self):
+        '''Application des renseignements
+
+        Implémente un fichier YAML sur la base des renseignements collectés.
+        '''
+
         data =  {
             'preseed': {
                 'localization': {

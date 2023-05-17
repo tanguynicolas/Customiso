@@ -18,7 +18,7 @@ usage() {
 
 #[[ $# -lt 1 ]] && err 'Missing arguments, type -h' && exit 1
 
-options=$(getopt -a -o h -l help -- "$@") || usage
+options=$(getopt -a -o hv -l help -- "$@") || usage
 
 eval set -- "$options" # eval for remove simple quote
 
@@ -26,7 +26,10 @@ while true; do
     case "$1" in
         -h|--help)
             usage
-	    shift;;
+	        shift;;
+        -v)
+            verbose=true
+	        shift;;
         --)
             shift; break;;
         *)
@@ -34,7 +37,6 @@ while true; do
     esac 
 done
 
-[[ $# -gt 0 ]] && err 'Too many arguments, type -h' && exit 1
 
 ### Coeur du script
 
@@ -65,12 +67,12 @@ Default {
     };
 };" > ${customiso_path}/config-deb
 
-apt-ftparchive generate ${customiso_path}/config-deb  > /dev/null 2>&1
+apt-ftparchive generate ${customiso_path}/config-deb > /dev/null 2>&1 && [ $verbose ] && echo "Fichier Packages mis à jour"
 
 sed -i '/MD5Sum:/,$d' ${customiso_path}/${extract_dir}/dists/bullseye/Release
 apt-ftparchive release ${customiso_path}/${extract_dir}/dists/bullseye \
-        >> ${customiso_path}/${extract_dir}/dists/bullseye/Release
+        >> ${customiso_path}/${extract_dir}/dists/bullseye/Release && [ $verbose ] && echo "Release file mis à jour"
 
 cd "${customiso_path}/${extract_dir}"
 md5sum $(find ! -name "md5sum.txt" ! -path "./isolinux/*" -follow -type f 2>/dev/null) \
-        > "${customiso_path}/${extract_dir}/md5sum.txt";
+        > "${customiso_path}/${extract_dir}/md5sum.txt" && [ $verbose ] && echo "Fichier md5sum.txt mis à jour"
