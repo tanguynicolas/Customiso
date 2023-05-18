@@ -2,6 +2,7 @@
 __pycache__
 *.iso
 *.deb
+*.gz
 
 debian_package/usr/bin/*
 debian_package/usr/lib/customiso/*

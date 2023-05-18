@@ -1,0 +1,46 @@
+.Dd 18/5/23
+.Dt customiso 1
+.Os Linux
+.Sh NAME
+.Nm Customiso,
+.Nm Customiso Generate,
+.Nm Customiso Make.
+.Nd Un programme pour vous faciliter la personalisation d'image ISO Debian.
+.Sh SYNOPSIS
+.Nm customiso { generate | make } 
+.Op Fl hqv
+.Op Fl c Ar path
+.Op Fl i Ar path
+.Op Fl o Ar path
+.Sh DESCRIPTION
+Utilisez Customiso Generate afin de générer un fichier de configuration valide 
+pour ensuite utiliser Customiso Make afin de générer une image ISO Debian
+Entièrement personalisée !
+.Pp
+Comandes enfants :
+.Bl -tag -width -indent
+.It generate
+Génération de fichier YAML de configuration
+.It make
+Génération d'image ISO personalisée
+.El
+.Pp
+Liste des options et leur description :
+.Bl -tag -width -indent
+.It Fl h
+affiche la page d'aide simplifiée
+.It Fl q
+[generate] active le mode anti-verbeux
+.It Fl v
+[make] active le mode verbeux.
+.It Fl c
+indique le chemin du fichier de configuration YAML de sortie ou d'entrée
+.It Fl i
+indique le chemin de l'image ISO d'entrée (input)
+.It Fl o
+indique le chemin de l'image ISO de sortie (output)
+.El
+.Pp
+.Sh SEE ALSO
+.Xr GitHub github.tanguynicolas.fr ,
+.Xr LinkedIn linkedin.tanguynicolas.fr
