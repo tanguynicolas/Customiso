@@ -3,16 +3,20 @@
 <img src="src/customiso/assets/img/logo_customiso.png"  width="25%" align="right">
 
 Projet universitaire (UPJV) - M1 INFO 2023
+
 <br />
 
 Modifiez votre image ISO Debian facilement ! Ajoutez lui des paquets (.deb), configurez l'installation silencieuse (preseed), et ajoutez votre propre script de post-installation ; le tout hors-ligne !
+
 <br />
 
 ## Présentation
 Customiso est un programme avec une interface en ligne de commande (CLI).
+
 <br />
 
 Une commande de base : `customiso`. Cette commande a deux commandes enfants, à savoir `customiso generate` et `customiso make`.
+
 <br />
 
 L’objectif est d’automatiser le processus de modification d’une image ISO Linux Debian afin de :
@@ -21,6 +25,7 @@ L’objectif est d’automatiser le processus de modification d’une image ISO 
 - Ajouter des fichiers personnalisés à des emplacements spécifiques de l’arborescence ;
 - Ajouter un script de post installation personnalisé.
 La simplicité d’usage est la devise de Customiso !
+
 <br />
 
 ## Customiso Generate
@@ -29,6 +34,7 @@ Exemple d'utilisation :
 ```bash
 customiso generate -c /tmp/config.yaml
 ```
+
 <br />
 
 ## Customiso Make
@@ -37,6 +43,7 @@ Exemple d'utilisation :
 ```bash
 customiso make -c "/tmp/config.yaml" -i "debian-11.7.0-amd64-DVD-1.iso" -o "debian_custom"
 ```
+
 <br />
 
 ## Documentation
@@ -47,9 +54,18 @@ Une page `man` est également disponnible.
 <br />
 
 ## Setup du projet (pour les utilisateurs)
+Vous devrez avoir Python (3.9 ou 3.10 => testé) avec pip et pyenv.
+
 ```bash
-curl -LO 
-sudo apt install ./
+sudo apt update
+sudo apt install python3 python3-pip python3-pyenv
+```
+
+```bash
+wget --content-disposition customiso.tanguynicolas.fr
+sudo apt install ./customiso-v1-0-0.deb
+
+customiso
 ```
 
 Le programme est installé sur votre système suivant cette arborescence :
@@ -69,14 +85,11 @@ Le programme est installé sur votre système suivant cette arborescence :
 
 ## Setup du projet (pour les développeurs)
 ### Dépendances
-Vous devrez avoir Python3.10 (et pip) ainsi que git.
-Les autres dépendances sont indiqués ci-après.
+Les dépendances sont les mêmes que pour les utilisateurs.
 
-**Distributions Debian-based**
+Pour les **distributions Arch-based** ou **RHEL-based**, il faudra ajouter Apt et Dpkg.
 
-Acune dépendance.
-
-**Distributions Arch-based**
+Exemple sur Manjaro avec yay :
 
 ```bash
 yay -Sy apt dpkg 
@@ -91,6 +104,16 @@ source .pyenv/bin/activate  # On entre dans l'env
 
 pip install -r requirements.txt
 ```
+
+<br />
+
+### Utilisation
+Veillez à être dans l'environnement virtuel.
+
+```bash
+python src/customiso --help
+```
+
 <br />
 
 ## Fichier de configuration Customiso
