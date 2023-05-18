@@ -43,6 +43,7 @@ python src/customiso make -c "yaml_file.yaml" -i "debian-11.7.0-amd64-DVD-1.iso"
 En plus de cette documentation, utilisez les options `--help` sur chaque commande.
 
 Une page `man` est également disponnible.
+
 <br />
 
 ## Setup du projet (pour les utilisateurs)
