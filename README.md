@@ -32,21 +32,54 @@ python src/customiso generate -c /tmp/customiso-generate
 <br />
 
 ## Customiso Make
-Permet, avec un fichier YAML correctement formaté en entrée, de modifier l’image ISO en conséquence du fichier passé en paramètre.
+Permet, avec un fichier YAML correctement formaté en entrée (comme celui généré par Customiso Generate), de modifier l’image ISO en conséquence du fichier passé en paramètre.
 Exemple d'utilisation :
 ```bash
 python src/customiso make -c "yaml_file.yaml" -i "debian-11.7.0-amd64-DVD-1.iso" -o "debian_custom"
 ```
 <br />
 
-## Setup projet
+## Setup du projet (pour les utilisateurs)
 ```bash
+curl -LO 
+sudo apt install ./
+```
+
+Le programme est installé sur votre système suivant cette arborescence :
+```
+/
+├── usr
+│   ├── bin
+│   ├── lib
+│   │   └── customiso
+│   └── share
+│       └── man
+└── var
+    └── lib
+        └── customiso
+```
+
+## Setup du projet (pour les développeurs)
+### Dépendances
+Vous devrez avoir Python3.10 (et pip) ainsi que git.
+Les autres dépendances sont indiqués ci-après.
+
+**Distributions Debian-based**
+Acune dépendance.
+
+**Distributions Arch-based**
+```bash
+yay -Sy apt dpkg 
+```
+
+### Setup
+```bash
+git clone git@github.com:Tanguy00/Customiso.git && cd Customiso
+
 python -m venv .pyenv
 source .pyenv/bin/activate  # On entre dans l'env
 
 pip install -r requirements.txt
-
-deactivate                  # On sort de l'env
 ```
 <br />
 
