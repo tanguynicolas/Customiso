@@ -23,6 +23,8 @@ setup() {
 if [ "$1" == "check" ]; then
     checkDependencies
     setup
+
+    echo -e "Tout est en ordre.\n"; exit 0
 fi
 
 setup
