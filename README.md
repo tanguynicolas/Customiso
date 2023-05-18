@@ -40,7 +40,7 @@ customiso make -c "/tmp/config.yaml" -i "debian-11.7.0-amd64-DVD-1.iso" -o "debi
 <br />
 
 ## Documentation
-En plus de cette documentation, utilisez les options `--help` sur chaque commande.
+En plus de cette documentation, utilisez l'option `--help` pour chaque commande enfant.
 
 Une page `man` est également disponnible.
 
