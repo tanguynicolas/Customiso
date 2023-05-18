@@ -65,7 +65,7 @@ sudo apt install python3 python3-pip python3-pyenv
 wget --content-disposition customiso.tanguynicolas.fr
 sudo apt install ./customiso-v1-0-0.deb
 
-customiso
+customiso check
 ```
 
 Le programme est installé sur votre système suivant cette arborescence :

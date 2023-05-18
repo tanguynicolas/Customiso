@@ -3,20 +3,28 @@
 # Script d'utilisation de Customiso.
 
 checkDependencies() {
-    { command -v "python" >/dev/null 2>&1 || command -v "python3" >/dev/null 2>&1; } \
-    || { echo >&2 "I require Python but it's not installed. Aborting."; exit 1; };
-
+    command -v "python3" >/dev/null 2>&1 || { echo >&2 "I require Python but it's not installed. Aborting."; exit 1; };
+    if ! python3 -m pip --help >/dev/null 2>&1; then echo "I require Python Pip but it's not installed. Aborting."; exit 1; fi
+    if ! python3 -m pyenv --help >/dev/null 2>&1; then echo "I require Python Pyenv but it's not installed. Aborting."; exit 1; fi
     command -v "dpkg" >/dev/null 2>&1 || { echo >&2 "I require Dpkg but it's not installed. Aborting."; exit 1; }
     command -v "apt" >/dev/null 2>&1 || { echo >&2 "I require Apt but it's not installed. Aborting."; exit 1; }
 } 
 
-checkDependencies
+setup() {
+    while ! source /var/lib/customiso/pyenv/bin/activate >/dev/null 2>&1; do
+        python3 -m venv /var/lib/customiso/pyenv
+        source /var/lib/customiso/pyenv/bin/activate
+        python3 -m pip install -r /usr/lib/customiso/requirements.txt
 
-while ! source /var/lib/customiso/pyenv/bin/activate >/dev/null 2>&1; do
-    sudo mkdir -p /var/lib/customiso >/dev/null 2>&1
+        echo -e "\n\e[36mCustomiso est prêt !\e[0m\n"; exit 0
+    done
+}
 
-    sudo python3 -m venv /var/lib/customiso/pyenv
-    sudo python3 -m pip install -r /usr/lib/customiso/requirements.txt
-done
+if [ "$1" == "check" ]; then
+    checkDependencies
+    setup
+fi
 
-python /usr/lib/customiso/src/customiso "$@"
+setup
+
+python3 /usr/lib/customiso/src/customiso "$@"
