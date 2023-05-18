@@ -27,7 +27,7 @@ La simplicité d’usage est la devise de Customiso !
 Permet de générer un fichier YAML avec un ensemble d’informations relatives à la modification souhaitée de l’image ISO.
 Exemple d'utilisation :
 ```bash
-python src/customiso generate -c /tmp/customiso-generate
+customiso generate -c /tmp/config.yaml
 ```
 <br />
 
@@ -35,7 +35,7 @@ python src/customiso generate -c /tmp/customiso-generate
 Permet, avec un fichier YAML correctement formaté en entrée (comme celui généré par Customiso Generate), de modifier l’image ISO en conséquence du fichier passé en paramètre.
 Exemple d'utilisation :
 ```bash
-python src/customiso make -c "yaml_file.yaml" -i "debian-11.7.0-amd64-DVD-1.iso" -o "debian_custom"
+customiso make -c "/tmp/config.yaml" -i "debian-11.7.0-amd64-DVD-1.iso" -o "debian_custom"
 ```
 <br />
 
