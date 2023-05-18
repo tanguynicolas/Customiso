@@ -39,6 +39,12 @@ python src/customiso make -c "yaml_file.yaml" -i "debian-11.7.0-amd64-DVD-1.iso"
 ```
 <br />
 
+## Documentation
+En plus de cette documentation, utilisez les options `--help` sur chaque commande.
+
+Une page `man` est également disponnible.
+<br />
+
 ## Setup du projet (pour les utilisateurs)
 ```bash
 curl -LO 
@@ -65,9 +71,11 @@ Vous devrez avoir Python3.10 (et pip) ainsi que git.
 Les autres dépendances sont indiqués ci-après.
 
 **Distributions Debian-based**
+
 Acune dépendance.
 
 **Distributions Arch-based**
+
 ```bash
 yay -Sy apt dpkg 
 ```
