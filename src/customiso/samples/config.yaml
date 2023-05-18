@@ -34,8 +34,8 @@ preseed:
     device_eject: false
 
 additional_packages:
-  - /home/tn/Desktop/Customiso/deb_packages/ponysay_3.0.3+20210327-1_all.deb
-  - /home/tn/Desktop/Customiso/deb_packages/lsd_0.23.1_amd64.deb
+  - /home/tn/Desktop/Customiso/Customiso/src/customiso/samples/deb_packages/ponysay_3.0.3+20210327-1_all.deb
+  - /home/tn/Desktop/Customiso/Customiso/src/customiso/samples/deb_packages/lsd_0.23.1_amd64.deb
 
 additional_files:
   - from: /home/tn/Desktop/Customiso/Customiso/src/customiso/samples/afile.xml

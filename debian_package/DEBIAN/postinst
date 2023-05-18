@@ -1,0 +1,9 @@
+#!/bin/bash
+
+chmod +x /usr/bin/customiso
+
+chmod +x /usr/lib/customiso/src/customiso/scripts/constants.sh
+chmod +x /usr/lib/customiso/src/customiso/scripts/apply-packages.sh
+chmod +x /usr/lib/customiso/src/customiso/scripts/extract.sh
+chmod +x /usr/lib/customiso/src/customiso/scripts/packing.sh
+chmod +x /usr/lib/customiso/src/customiso/scripts/preseed.sh

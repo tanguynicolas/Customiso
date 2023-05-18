@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# Script d'utilisation de Customiso.
+
+checkDependencies() {
+    { command -v "python" >/dev/null 2>&1 || command -v "python3" >/dev/null 2>&1; } \
+    || { echo >&2 "I require Python but it's not installed. Aborting."; exit 1; };
+
+    command -v "dpkg" >/dev/null 2>&1 || { echo >&2 "I require Dpkg but it's not installed. Aborting."; exit 1; }
+    command -v "apt" >/dev/null 2>&1 || { echo >&2 "I require Apt but it's not installed. Aborting."; exit 1; }
+} 
+
+checkDependencies
+
+while ! source /var/lib/customiso/pyenv/bin/activate >/dev/null 2>&1; do
+    sudo mkdir -p /var/lib/customiso >/dev/null 2>&1
+
+    sudo python -m venv /var/lib/customiso/pyenv
+    sudo pip install -r /usr/lib/customiso/requirements.txt
+done
+
+python /usr/lib/customiso/src/customiso "$@"

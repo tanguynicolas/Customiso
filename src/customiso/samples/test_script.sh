@@ -2,5 +2,8 @@
 #
 # Test
 
-touch /tmp/hello /opt/helloo /var/hellooo /etc/helloooo
+display="Démonstration du $(date)"
 
+echo "$display" > /opt/demo
+echo "$display" > /var/demo
+echo "$display" > /etc/demo

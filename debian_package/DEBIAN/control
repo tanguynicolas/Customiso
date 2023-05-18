@@ -1,0 +1,9 @@
+Package: customiso
+Version: 1.0
+Section: base
+Priority: optional
+Architecture: all
+Depends: bash
+Maintainer: "Tanguy NICOLAS" <tanguy-nicolas@outlook.fr>
+Homepage: linkedin.tanguynicolas.fr
+Description: Utility that allows you to customize your ISO image.

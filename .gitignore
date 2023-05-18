@@ -2,3 +2,8 @@
 __pycache__
 *.iso
 *.deb
+
+debian_package/usr/bin/*
+debian_package/usr/lib/customiso/*
+debian_package/usr/share/man/*
+debian_package/var/lib/customiso/*

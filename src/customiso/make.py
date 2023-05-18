@@ -142,6 +142,7 @@ class Maker:
         elif network['advanced']['ip_config'] == False:
             preseed_cfg.append("d-i netcfg/enable boolean false")
         elif network['advanced']['ip_config'] == True:
+            preseed_cfg.append("d-i apt-setup/disable-cdrom-entries boolean true")
             preseed_cfg.append("d-i netcfg/enable boolean true")
             preseed_cfg.append("d-i netcfg/choose_interface select auto")
             preseed_cfg.append("d-i netcfg/dhcp_timeout string 8")
