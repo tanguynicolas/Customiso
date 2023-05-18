@@ -61,6 +61,7 @@ Le programme est installé sur votre système suivant cette arborescence :
 │   │   └── customiso
 │   └── share
 │       └── man
+│           └── man1
 └── var
     └── lib
         └── customiso
