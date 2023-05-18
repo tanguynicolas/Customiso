@@ -15,8 +15,8 @@ checkDependencies
 while ! source /var/lib/customiso/pyenv/bin/activate >/dev/null 2>&1; do
     sudo mkdir -p /var/lib/customiso >/dev/null 2>&1
 
-    sudo python -m venv /var/lib/customiso/pyenv
-    sudo pip install -r /usr/lib/customiso/requirements.txt
+    sudo python3 -m venv /var/lib/customiso/pyenv
+    sudo python3 -m pip install -r /usr/lib/customiso/requirements.txt
 done
 
 python /usr/lib/customiso/src/customiso "$@"

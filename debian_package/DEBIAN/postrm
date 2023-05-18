@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm -rf /var/lib/customiso/pyenv
+rm -rf /usr/lib/customiso/src/customiso/__pycache__/
